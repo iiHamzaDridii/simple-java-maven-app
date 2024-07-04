@@ -2,6 +2,9 @@
 
 pipeline {
     agent any
+    options {
+        skipStagesAfterUnstable()
+    }
     tools {
         maven 'Maven 3.9.8'
     }
@@ -19,6 +22,11 @@ pipeline {
                 always {
                     junit 'target/surefire-reports/*.xml'
                 }
+            }
+        }
+        stage('Deliver') { 
+            steps {
+                sh './jenkins/scripts/deliver.sh' 
             }
         }
     }
